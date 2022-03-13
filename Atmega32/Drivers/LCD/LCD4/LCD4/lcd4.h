@@ -21,7 +21,7 @@
  void Lcd4_Set_Cursor(unsigned char UN_CH_LCD_ROW, unsigned char UN_CH_LCD_COLUMN);
  void Lcd4_Init();
  void Lcd4_Write_Char(unsigned char UN_CH_LCD_CHAR);
- void Lcd4_Write_String(char *UN_CH_LCD_STRING_PTR);
+ void Lcd4_Write_String(char *CH_LCD_STRING_PTR);
  void Lcd4_Shift_Right();
  void Lcd4_Shift_Left();
 

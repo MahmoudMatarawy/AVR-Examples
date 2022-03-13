@@ -19,7 +19,7 @@ void Lcd8_Clear();
 void Lcd8_Set_Cursor(unsigned char UN_CH_LCD_ROW, unsigned char UN_CH_LCD_COLUMN);
 void Lcd8_Init();
 void Lcd8_Write_Char(unsigned char UN_CH_LCD_CHAR);
-void Lcd8_Write_String(char *UN_CH_LCD_STRING_PTR);
+void Lcd8_Write_String(char *CH_LCD_STRING_PTR);
 void Lcd8_Shift_Right();
 void Lcd8_Shift_Left();
 

@@ -287,10 +287,10 @@ void Lcd8_Write_Char(unsigned char UN_CH_LCD_CHAR)
 	_delay_ms(1);
 }
 
-void Lcd8_Write_String(char *UN_CH_LCD_STRING_PTR)
+void Lcd8_Write_String(char *CH_LCD_STRING_PTR)
 {
-	for(int i_counter=0;UN_CH_LCD_STRING_PTR[i_counter]!='\0';i_counter++)
-	Lcd8_Write_Char(UN_CH_LCD_STRING_PTR[i_counter]);
+	for(int i_counter=0;CH_LCD_STRING_PTR[i_counter]!='\0';i_counter++)
+	Lcd8_Write_Char(CH_LCD_STRING_PTR[i_counter]);
 }
 
 void Lcd8_Shift_Right()

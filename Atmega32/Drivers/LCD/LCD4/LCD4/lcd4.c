@@ -348,12 +348,12 @@ void Lcd4_Write_Char(unsigned char UN_CH_LCD_CHAR)
 *purpose       : Writing a string on LCD
 *
 */
-void Lcd4_Write_String(char *UN_CH_LCD_STRING_PTR)
+void Lcd4_Write_String(char *CH_LCD_STRING_PTR)
 {
 	unsigned char UN_ch_LCD_COUNTER ;
-	for(UN_ch_LCD_COUNTER=0;UN_CH_LCD_STRING_PTR[UN_ch_LCD_COUNTER]!='\0';UN_ch_LCD_COUNTER++)
+	for(UN_ch_LCD_COUNTER=0;CH_LCD_STRING_PTR[UN_ch_LCD_COUNTER]!='\0';UN_ch_LCD_COUNTER++)
 	{
-		Lcd4_Write_Char(UN_CH_LCD_STRING_PTR[UN_ch_LCD_COUNTER]);
+		Lcd4_Write_Char(CH_LCD_STRING_PTR[UN_ch_LCD_COUNTER]);
 	}
 }
 
