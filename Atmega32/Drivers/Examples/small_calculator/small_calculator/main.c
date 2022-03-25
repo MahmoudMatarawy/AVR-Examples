@@ -13,13 +13,13 @@
 
 int main(void)
 {
-	
+	DDRB = 0xff;
 	DDRA = 0xff;
 	Lcd4_Init();
 	v_Keypad_Init();
-	char input[100];
+	unsigned char input[100];
 	int i_c=0;
-	char x=0;
+	unsigned char x=0;
     /* Replace with your application code */
     while (1) 
     {

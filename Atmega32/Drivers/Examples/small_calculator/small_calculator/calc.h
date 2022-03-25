@@ -11,8 +11,8 @@
 #define CALC_H_
 
 
-void calculate_res(char*input);
-void clean(char *str);
+void calculate_res(unsigned char*input);
+void clean(unsigned char *str);
 
 
 

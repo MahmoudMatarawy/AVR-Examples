@@ -8,10 +8,9 @@
 #include "calc.h"
 #include "keypad.h"
 #include "lcd4.h"
-#include <math.h>
 #define high 1
 #define low 0
-void pir(char *opp,int *pr)
+void pir(unsigned char *opp,unsigned int *pr)
 {
 	for(int i = 0 ; opp[i]!='=' ; i++)
 	{
@@ -33,7 +32,7 @@ void pir(char *opp,int *pr)
 		}
 	}
 }
-void rearr(int c,float *n,char *op,int pr[])
+void rearr(unsigned int c, float *n,unsigned char *op,unsigned int pr[])
 {
 	for(int i = c ; n[i] != '\0' ; i++ )
 	{
@@ -46,7 +45,7 @@ void rearr(int c,float *n,char *op,int pr[])
 	}
 }
 
-int calc_ml_d(float *n , char *op,int *pr)
+int calc_ml_d( float *n , unsigned char *op,unsigned int *pr)
 {
 	if(op[0] == '=')
 	{
@@ -70,7 +69,7 @@ int calc_ml_d(float *n , char *op,int *pr)
 	}
 	return 0;
 }
-int calc_p_mi(float *n , char *op,int *pr)
+int calc_p_mi( float *n , unsigned char *op,unsigned int *pr)
 {
 	if(op[0] == '=')
 	{
@@ -94,7 +93,7 @@ int calc_p_mi(float *n , char *op,int *pr)
 	}
 	return 0;
 }
-int ope(char n)
+int ope(unsigned char n)
 {
 	switch(n)
 	{
@@ -106,14 +105,26 @@ int ope(char n)
 	}
 	return 0 ;
 }
-void store_n(float *n , char *arr ,int pr , int ind , int n_c)
+int power(int base , int factor)
 {
+	if (factor==0)
+	{
+		return 1;
+	}
+	return base * power(base,factor-1);
+}
+void store_n( float *n , unsigned char *arr , int pr ,  int ind , int n_c)
+{
+	n[n_c]=0;
 	for(int i=ind ; i>=pr ; i--)
 	{
-		n[n_c] += (arr[i]-48)*pow(10,ind-i);
+		if(arr[i]>48U)
+		{
+			n[n_c] +=(float) ((arr[i]-48)*(power(10,ind-i)));
+		}
 	}
 }
-void split (char *arr , char *op , float *n)
+void split (unsigned char *arr ,unsigned char *op , float *n)
 {
 	int op_c=0 ;
 	int n_c=0;
@@ -130,44 +141,47 @@ void split (char *arr , char *op , float *n)
 		}
 	}
 }
-void clean(char *str)
+void clean(unsigned char *str)
 {
 	for (int i = 0 ; str[i]!='\0';i++)
 	{
 		str[i]='\0';
 	}
 }
-void clean_int(int *str)
+void clean_int(unsigned int *str)
 {
 	for (int i = 0 ; str[i]!='\0';i++)
 	{
 		str[i]='\0';
 	}
 }
-void clean_float(float *str)
+void clean_float( float *str)
 {
 	for (int i = 0 ; str[i]!='\0';i++)
 	{
 		str[i]='\0';
 	}
 }
-void calculate_res(char*input)
+
+void calculate_res(unsigned char*input)
 {
-	//Lcd4_Write_String(input);
 	float n[100];
-	char op[100];
+	unsigned char op[100];
+	unsigned int pr[100];
+	unsigned char out_l[10];
+	unsigned int i;
+	unsigned int sub;
+	unsigned char out_r[10];
+	unsigned int input_l;
+	unsigned int j ;
+	unsigned int input_r;
 	split(input,op,n);
-	//Lcd4_Write_String(op);
-	int pr[100];
 	pir(op,pr);
 	calc_ml_d(n,op,pr);
 	calc_p_mi(n,op,pr);
 	clean_int(pr);
 	clean(op);
-	char out_l[10];
-	int i =0;
-	int sub;
-	int input_l = ((int)n[0]);
+	input_l = (int)n[0];
 	for( i = 0 ; input_l!=0 ; i++)
 	{
 		sub = (input_l-(input_l/10)*10);
@@ -175,10 +189,8 @@ void calculate_res(char*input)
 		input_l -=sub;
 		input_l /=10;
 	}
-	char out_r[10];
-	int j =0;
 	sub=0;
-	int input_r = ((int)(n[0]*1000))-(((int)n[0])*1000);
+	input_r = ((int)(n[0]*1000))-(((int)n[0])*1000);
 	for( j = 0 ; input_r!=0 ; j++)
 	{
 		sub = (input_r-(input_r/10)*10);
