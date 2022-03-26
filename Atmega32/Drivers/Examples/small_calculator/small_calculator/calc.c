@@ -2,7 +2,7 @@
  * calc.c
  *
  * Created: 3/15/2022 10:26:03 PM
- *  Author: Mahmoud Sarhan
+ * Author: Mahmoud Sarhan
  * Email  : eng.mahmoud.adel94@gmail.com
  */ 
 #include "calc.h"
