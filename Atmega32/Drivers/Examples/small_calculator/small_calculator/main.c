@@ -13,7 +13,7 @@
 
 int main(void)
 {
-	DDRB = 0xff;
+	//DDRB = 0xff;
 	DDRA = 0xff;
 	Lcd4_Init();
 	v_Keypad_Init();

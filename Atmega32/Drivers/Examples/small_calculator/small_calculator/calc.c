@@ -194,7 +194,7 @@ void calculate_res(unsigned char*input)
 	for( j = 0 ; input_r!=0 ; j++)
 	{
 		sub = (input_r-(input_r/10)*10);
-		out_r[j] = sub +48;;
+		out_r[j] = sub +48;
 		input_r -=sub;
 		input_r /=10;
 	}
