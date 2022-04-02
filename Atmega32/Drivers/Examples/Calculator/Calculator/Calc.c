@@ -271,7 +271,7 @@ void Calc_main(void)
 				if (i_c > 0)
 				{
 					Lcd4_Clear();
-					Lcd4_Write_String("Root(");
+					Lcd4_Write_String(((unsigned char*)"Root("));
 					Lcd4_Write_String(input);
 					Lcd4_Write_Char(')');
 					res = root(input,i_c);
@@ -285,7 +285,7 @@ void Calc_main(void)
 				if (i_c > 0)
 				{
 					Lcd4_Clear();
-					Lcd4_Write_String("Prec(");
+					Lcd4_Write_String(((unsigned char*)"Prec("));
 					Lcd4_Write_String(input);
 					Lcd4_Write_Char(')');
 					Lcd4_Set_Cursor(2,0);
@@ -417,7 +417,7 @@ void Calc_main(void)
 				break;
 				case 'R' :
 				Lcd4_Clear();
-				Lcd4_Write_String("Root(");
+				Lcd4_Write_String(((unsigned char*)"Root("));
 				print_res(res);
 				Lcd4_Write_Char(')');
 				res = sqrtf(res);
@@ -428,7 +428,7 @@ void Calc_main(void)
 				break;
 				case 'P' :
 				Lcd4_Clear();
-				Lcd4_Write_String("Prec(");
+				Lcd4_Write_String(((unsigned char*)"Prec("));
 				print_res(res);
 				Lcd4_Write_Char(')');
 				res /= 100;

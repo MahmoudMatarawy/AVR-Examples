@@ -1758,7 +1758,7 @@ void Calc_main(void)
 				{
 					Lcd4_Clear();
      a72:	0e 94 cf 0b 	call	0x179e	; 0x179e <Lcd4_Clear>
-					Lcd4_Write_String("Root(");
+					Lcd4_Write_String(((unsigned char*)"Root("));
      a76:	80 e6       	ldi	r24, 0x60	; 96
      a78:	90 e0       	ldi	r25, 0x00	; 0
      a7a:	0e 94 8d 0c 	call	0x191a	; 0x191a <Lcd4_Write_String>
@@ -1809,7 +1809,7 @@ void Calc_main(void)
 				{
 					Lcd4_Clear();
      ae6:	0e 94 cf 0b 	call	0x179e	; 0x179e <Lcd4_Clear>
-					Lcd4_Write_String("Prec(");
+					Lcd4_Write_String(((unsigned char*)"Prec("));
      aea:	86 e6       	ldi	r24, 0x66	; 102
      aec:	90 e0       	ldi	r25, 0x00	; 0
      aee:	0e 94 8d 0c 	call	0x191a	; 0x191a <Lcd4_Write_String>
@@ -2234,7 +2234,7 @@ void Calc_main(void)
 				case 'R' :
 				Lcd4_Clear();
      e16:	0e 94 cf 0b 	call	0x179e	; 0x179e <Lcd4_Clear>
-				Lcd4_Write_String("Root(");
+				Lcd4_Write_String(((unsigned char*)"Root("));
      e1a:	80 e6       	ldi	r24, 0x60	; 96
      e1c:	90 e0       	ldi	r25, 0x00	; 0
      e1e:	0e 94 8d 0c 	call	0x191a	; 0x191a <Lcd4_Write_String>
@@ -2279,7 +2279,7 @@ void Calc_main(void)
 				case 'P' :
 				Lcd4_Clear();
      e8c:	0e 94 cf 0b 	call	0x179e	; 0x179e <Lcd4_Clear>
-				Lcd4_Write_String("Prec(");
+				Lcd4_Write_String(((unsigned char*)"Prec("));
      e90:	86 e6       	ldi	r24, 0x66	; 102
      e92:	90 e0       	ldi	r25, 0x00	; 0
      e94:	0e 94 8d 0c 	call	0x191a	; 0x191a <Lcd4_Write_String>

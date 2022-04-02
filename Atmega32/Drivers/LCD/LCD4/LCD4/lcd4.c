@@ -205,12 +205,12 @@ void pinChange(int a, int b)
 
 /*
 *Function name : LCD4_PORT
-*Parameters	   : CHAR
+*Parameters	   : unsigned int
 *return		   : VOID
 *purpose       : CHANGING PIN CONDITION
 *
 */
-void Lcd4_Port(unsigned char UN_CH_LCD_VAR1)
+void Lcd4_Port(unsigned int UN_CH_LCD_VAR1)
 {
 	if(UN_CH_LCD_VAR1 & 1)
 	pinChange(D4,1);
@@ -240,7 +240,7 @@ void Lcd4_Port(unsigned char UN_CH_LCD_VAR1)
 *purpose       : sets the RS=0 , EN =1 , EN=0
 *
 */
-void Lcd4_Cmd(unsigned char UN_CH_LCD_VAR1)
+void Lcd4_Cmd(unsigned int UN_CH_LCD_VAR1)
 {
 	pinChange(RS,0);             // => RS = 0
 	Lcd4_Port(UN_CH_LCD_VAR1);
@@ -265,14 +265,14 @@ void Lcd4_Clear()
 
 /*
 *Function name : Lcd4_Set_Cursor
-*Parameters	   : unsigned char
+*Parameters	   : unsigned int
 *return		   : void
 *purpose       : Sets the cursor position
 *
 */
-void Lcd4_Set_Cursor(unsigned char UN_CH_LCD_ROW, unsigned char UN_CH_LCD_COLUMN)
+void Lcd4_Set_Cursor(unsigned int UN_CH_LCD_ROW, unsigned int UN_CH_LCD_COLUMN)
 {
-	unsigned char UN_CH_LCD_VAR2 = 0 ,UN_CH_LCD_VAR3 = 0 ,UN_CH_LCD_VAR4 = 0 ;
+	unsigned int UN_CH_LCD_VAR2 = 0 ,UN_CH_LCD_VAR3 = 0 ,UN_CH_LCD_VAR4 = 0 ;
 	if(UN_CH_LCD_ROW == 1)
 	{
 		UN_CH_LCD_VAR2 = 0x80 + UN_CH_LCD_COLUMN;
@@ -348,7 +348,7 @@ void Lcd4_Write_Char(unsigned char UN_CH_LCD_CHAR)
 *purpose       : Writing a string on LCD
 *
 */
-void Lcd4_Write_String(char *CH_LCD_STRING_PTR)
+void Lcd4_Write_String(unsigned char *CH_LCD_STRING_PTR)
 {
 	unsigned char UN_ch_LCD_COUNTER ;
 	for(UN_ch_LCD_COUNTER=0;CH_LCD_STRING_PTR[UN_ch_LCD_COUNTER]!='\0';UN_ch_LCD_COUNTER++)

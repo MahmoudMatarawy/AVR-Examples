@@ -16,10 +16,10 @@ int main(void)
     while (1) 
     {
 		Lcd4_Set_Cursor(1,1);
-		Lcd4_Write_String("Mahmoud");
+		Lcd4_Write_String(((unsigned char*)"Mahmoud"));
 		_delay_ms(200);
 		Lcd4_Set_Cursor(2,1);
-		Lcd4_Write_String("Sarhan");
+		Lcd4_Write_String(((unsigned char*)"Sarhan"));
 		 _delay_ms(200);
 		 Lcd4_Clear();
     }
