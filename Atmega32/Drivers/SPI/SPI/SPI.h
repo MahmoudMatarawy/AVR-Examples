@@ -17,7 +17,7 @@
 #define MOSI						5
 #define SCK							7
 #define SS							4
-#define SPI_INTERRUPT_FLAG					SPIF
+#define SPI_INTERRUPT_FLAG			SPIF
 #define SPI_DATA_REG				SPDR
 #define SPI_CONTROL_REG				SPCR
 #define SPI_STATUS_REG				SPSR
