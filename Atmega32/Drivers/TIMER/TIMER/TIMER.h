@@ -9,12 +9,20 @@
 
 #ifndef TIMER_H_
 #define TIMER_H_
-#define F_CPU 8000000UL
 
+
+
+/*****************************************************************************************/
+/*                                   Include headres                                     */
+/*****************************************************************************************/
 #include <avr/io.h>
 #include "TIMER_CONFIG.h"
-#include <util/delay.h>
-unsigned int timer_init(int timer_n , char mode , char com , int clock_select);
+
+
+/* -------------------------------------------------------------------------- */
+/*                             Functions Prototype                            */
+/* -------------------------------------------------------------------------- */
+unsigned int timer_init(uint8_t timer_n , uint8_t mode , uint8_t com , uint32_t clock_select);
 
 
 

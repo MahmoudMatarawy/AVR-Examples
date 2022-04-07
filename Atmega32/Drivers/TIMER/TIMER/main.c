@@ -5,9 +5,9 @@
  * Author: Mahmoud Sarhan
  * Email  : eng.mahmoud.adel94@gmail.com
  */ 
-
+#define F_CPU 8000000UL
 #include "TIMER.h"
-
+#include <util/delay.h>
 
 int main(void)
 {

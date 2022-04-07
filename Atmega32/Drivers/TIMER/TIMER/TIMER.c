@@ -9,9 +9,9 @@
 #include "TIMER.h"
 
 // TIMER 0 STATUS
-int TIMER_STATUS[TIMER_NUMBERS];
+uint8_t TIMER_STATUS[TIMER_NUMBERS];
 
-unsigned int timer_init(int timer_n , char mode , char com , int clock_select)
+unsigned int timer_init(uint8_t timer_n , uint8_t mode , uint8_t com , uint32_t clock_select)
 {
 	if (TIMER_STATUS[timer_n] == NOT_INIT)
 	{
@@ -44,7 +44,7 @@ unsigned int timer_init(int timer_n , char mode , char com , int clock_select)
 						TIMER_0_CONTROL_REG |= ENABLE(WGM00) | ENABLE(COM01) | ENABLE(CS00) | ENABLE(CS01);
 						break;
 						
-						case CLK_265_MODE :
+						case CLK_256_MODE :
 						TIMER_0_CONTROL_REG |= ENABLE(WGM00) | ENABLE(COM01) | ENABLE(CS02);
 						break;
 						
@@ -82,7 +82,7 @@ unsigned int timer_init(int timer_n , char mode , char com , int clock_select)
 						TIMER_0_CONTROL_REG |= ENABLE(WGM00) | ENABLE(COM00) | ENABLE(COM01) | ENABLE(CS00) | ENABLE(CS01);
 						break;
 						
-						case CLK_265_MODE :
+						case CLK_256_MODE :
 						TIMER_0_CONTROL_REG |= ENABLE(WGM00) | ENABLE(COM00) | ENABLE(COM01) | ENABLE(CS02);
 						break;
 						
@@ -120,7 +120,7 @@ unsigned int timer_init(int timer_n , char mode , char com , int clock_select)
 						TIMER_0_CONTROL_REG |= ENABLE(WGM00) | ENABLE(CS00) | ENABLE(CS01);
 						break;
 						
-						case CLK_265_MODE :
+						case CLK_256_MODE :
 						TIMER_0_CONTROL_REG |= ENABLE(WGM00) | ENABLE(CS02);
 						break;
 						
@@ -164,7 +164,7 @@ unsigned int timer_init(int timer_n , char mode , char com , int clock_select)
 						TIMER_0_CONTROL_REG |= ENABLE(WGM01) | ENABLE(COM00) | ENABLE(CS00) | ENABLE(CS01);
 						break;
 						
-						case CLK_265_MODE :
+						case CLK_256_MODE :
 						TIMER_0_CONTROL_REG |= ENABLE(WGM01) | ENABLE(COM00) | ENABLE(CS02);
 						break;
 						
@@ -202,7 +202,7 @@ unsigned int timer_init(int timer_n , char mode , char com , int clock_select)
 						TIMER_0_CONTROL_REG |= ENABLE(WGM01) | ENABLE(COM01) | ENABLE(CS00) | ENABLE(CS01);
 						break;
 						
-						case CLK_265_MODE :
+						case CLK_256_MODE :
 						TIMER_0_CONTROL_REG |= ENABLE(WGM01) | ENABLE(COM01) | ENABLE(CS02);
 						break;
 						
@@ -240,7 +240,7 @@ unsigned int timer_init(int timer_n , char mode , char com , int clock_select)
 						TIMER_0_CONTROL_REG |= ENABLE(WGM01) | ENABLE(COM00) | ENABLE(COM01) | ENABLE(CS00) | ENABLE(CS01);
 						break;
 						
-						case CLK_265_MODE :
+						case CLK_256_MODE :
 						TIMER_0_CONTROL_REG |= ENABLE(WGM01) | ENABLE(COM00) | ENABLE(COM01) | ENABLE(COM01) | ENABLE(CS02);
 						break;
 						
@@ -278,7 +278,7 @@ unsigned int timer_init(int timer_n , char mode , char com , int clock_select)
 						TIMER_0_CONTROL_REG |= ENABLE(WGM01) | ENABLE(CS00) | ENABLE(CS01);
 						break;
 						
-						case CLK_265_MODE :
+						case CLK_256_MODE :
 						TIMER_0_CONTROL_REG |= ENABLE(WGM01) | ENABLE(CS02);
 						break;
 						
@@ -325,7 +325,7 @@ unsigned int timer_init(int timer_n , char mode , char com , int clock_select)
 						TIMER_0_CONTROL_REG |= ENABLE(WGM00) | ENABLE(WGM01) | ENABLE(COM01) | ENABLE(CS00) | ENABLE(CS01);
 						break;			
 										
-						case CLK_265_MODE :
+						case CLK_256_MODE :
 						TIMER_0_CONTROL_REG |= ENABLE(WGM00) | ENABLE(WGM01) | ENABLE(COM01) | ENABLE(CS02);
 						break;				
 											
@@ -363,7 +363,7 @@ unsigned int timer_init(int timer_n , char mode , char com , int clock_select)
 						TIMER_0_CONTROL_REG |= ENABLE(WGM00) | ENABLE(WGM01) | ENABLE(COM00) | ENABLE(COM01) | ENABLE(CS00) | ENABLE(CS01);
 						break;
 						
-						case CLK_265_MODE :
+						case CLK_256_MODE :
 						TIMER_0_CONTROL_REG |= ENABLE(WGM00) | ENABLE(WGM01) | ENABLE(COM00) | ENABLE(COM01) | ENABLE(CS02);
 						break;
 						
@@ -401,7 +401,7 @@ unsigned int timer_init(int timer_n , char mode , char com , int clock_select)
 						TIMER_0_CONTROL_REG |= ENABLE(WGM00) | ENABLE(WGM01) | ENABLE(CS00) | ENABLE(CS01);
 						break;
 						
-						case CLK_265_MODE :
+						case CLK_256_MODE :
 						TIMER_0_CONTROL_REG |= ENABLE(WGM00) | ENABLE(WGM01) | ENABLE(CS02);
 						break;
 						
@@ -444,7 +444,7 @@ unsigned int timer_init(int timer_n , char mode , char com , int clock_select)
 						TIMER_0_CONTROL_REG |= ENABLE(COM00) | ENABLE(CS00) | ENABLE(CS01);
 						break;
 						
-						case CLK_265_MODE :
+						case CLK_256_MODE :
 						TIMER_0_CONTROL_REG |= ENABLE(COM00) | ENABLE(CS02) ;
 						break;
 						
@@ -482,7 +482,7 @@ unsigned int timer_init(int timer_n , char mode , char com , int clock_select)
 						TIMER_0_CONTROL_REG |= ENABLE(COM01) | ENABLE(CS00) | ENABLE(CS01);
 						break;
 						
-						case CLK_265_MODE :
+						case CLK_256_MODE :
 						TIMER_0_CONTROL_REG |= ENABLE(COM01) | ENABLE(CS02) ;
 						break;
 						
@@ -520,7 +520,7 @@ unsigned int timer_init(int timer_n , char mode , char com , int clock_select)
 						TIMER_0_CONTROL_REG |= ENABLE(COM00) | ENABLE(COM01) | ENABLE(CS00) | ENABLE(CS01);
 						break;
 						
-						case CLK_265_MODE :
+						case CLK_256_MODE :
 						TIMER_0_CONTROL_REG |= ENABLE(COM00) | ENABLE(COM01) | ENABLE(CS02) ;
 						break;
 						
@@ -558,7 +558,7 @@ unsigned int timer_init(int timer_n , char mode , char com , int clock_select)
 						TIMER_0_CONTROL_REG |= ENABLE(CS00) | ENABLE(CS01);
 						break;
 						
-						case CLK_265_MODE :
+						case CLK_256_MODE :
 						TIMER_0_CONTROL_REG |= ENABLE(CS02) ;
 						break;
 						
