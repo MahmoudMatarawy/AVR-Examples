@@ -12,7 +12,7 @@
 int main(void)
 {
 	DDRC = 0xff;
-	timer_init(0,FAST_PWM_MODE,CLEAR_OC_MODE,8);
+	timer_init(0,TIMER_0_FAST_PWM_MODE,CLEAR_OC_MODE,CLK_8_MODE);
 	//TCNT0 =0;
     while (1) 
     {
