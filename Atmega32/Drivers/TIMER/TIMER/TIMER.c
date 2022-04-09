@@ -19,587 +19,80 @@ unsigned int timer_init(uint8_t timer_n , uint8_t mode , uint8_t com , uint32_t 
 		{
 			// Timer 0 INIT.
 			case TIMER_0 :
-			TIMER_0_DDR |= ENABLE(TIMER_0_PIN);
 			switch(mode)
 			{
 				case TIMER_0_PWM_PHASE_CORRECT_MODE :
-				switch(com)
-				{
-					case TOGGLE_OC_MODE :
-					return FAILED ;
-					break;
-					
-					case CLEAR_OC_MODE :
-					switch(clock_select)
-					{
-						case NO_PRESCALING_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(COM01) | ENABLE(CS00);
-						break;
-						
-						case CLK_8_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(COM01) | ENABLE(CS01);
-						break;
-						
-						case CLK_64_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(COM01) | ENABLE(CS00) | ENABLE(CS01);
-						break;
-						
-						case CLK_256_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(COM01) | ENABLE(CS02);
-						break;
-						
-						case CLK_1024_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(COM01) | ENABLE(CS00) | ENABLE(CS02);
-						break;
-						
-						case FALLING_EDGE_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(COM01) | ENABLE(CS01) | ENABLE(CS02);
-						break;
-						
-						case RISING_EDGE_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(COM01) | ENABLE(CS00) | ENABLE(CS01) | ENABLE(CS02);
-						break;
-						
-						case NO_CLOCK_SOURCE_MODE :
-						return FAILED_NO_CLOCK_SOURCE;  
-						break;
-					}
-					TIMER_STATUS[timer_n] = INIT;
-					return DONE ;
-					break;
-					
-					case  SET_OC_MODE :
-					switch(clock_select)
-					{
-						case NO_PRESCALING_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(COM00) | ENABLE(COM01) | ENABLE(CS00);
-						break;
-						
-						case CLK_8_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(COM00) | ENABLE(COM01) | ENABLE(CS01);
-						break;
-						
-						case CLK_64_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(COM00) | ENABLE(COM01) | ENABLE(CS00) | ENABLE(CS01);
-						break;
-						
-						case CLK_256_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(COM00) | ENABLE(COM01) | ENABLE(CS02);
-						break;
-						
-						case CLK_1024_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(COM00) | ENABLE(COM01) | ENABLE(CS00) | ENABLE(CS02);
-						break;
-						
-						case FALLING_EDGE_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(COM00) | ENABLE(COM01) | ENABLE(CS01) | ENABLE(CS02);
-						break;
-						
-						case RISING_EDGE_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0)| ENABLE(COM00) | ENABLE(COM01) | ENABLE(CS00) | ENABLE(CS01) | ENABLE(CS02);
-						break;
-						
-						case NO_CLOCK_SOURCE_MODE :
-						return FAILED_NO_CLOCK_SOURCE;
-						break;
-					}
-					TIMER_STATUS[timer_n] = INIT;
-					return DONE ;
-					break;
-					
-					default:
-					switch(clock_select)
-					{
-						case NO_PRESCALING_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(CS00);
-						break;
-						
-						case CLK_8_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(CS01);
-						break;
-						
-						case CLK_64_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(CS00) | ENABLE(CS01);
-						break;
-						
-						case CLK_256_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(CS02);
-						break;
-						
-						case CLK_1024_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(CS00) | ENABLE(CS02);
-						break;
-						
-						case FALLING_EDGE_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(CS01) | ENABLE(CS02);
-						break;
-						
-						case RISING_EDGE_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(CS00) | ENABLE(CS01) | ENABLE(CS02);
-						break;
-						
-						case NO_CLOCK_SOURCE_MODE :
-						return FAILED_NO_CLOCK_SOURCE;
-						break;
-					}
-					TIMER_STATUS[timer_n] = INIT;
-					return DONE ;
-					break;
-				}
+				TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0);
 				break;
 				
 				case TIMER_0_CTC_MODE :
-				switch(com)
-				{
-					case TOGGLE_OC_MODE :
-					switch(clock_select)
-					{
-						case NO_PRESCALING_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(COM00) | ENABLE(CS00);
-						break;
-						
-						case CLK_8_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(COM00) | ENABLE(CS01);
-						break;
-						
-						case CLK_64_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(COM00) | ENABLE(CS00) | ENABLE(CS01);
-						break;
-						
-						case CLK_256_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(COM00) | ENABLE(CS02);
-						break;
-						
-						case CLK_1024_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(COM00) | ENABLE(CS00) | ENABLE(CS02);
-						break;
-						
-						case FALLING_EDGE_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(COM00) | ENABLE(CS01) | ENABLE(CS02);
-						break;
-						
-						case RISING_EDGE_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(COM00) | ENABLE(CS00) | ENABLE(CS01) | ENABLE(CS02);
-						break;
-						
-						case NO_CLOCK_SOURCE_MODE :
-						return FAILED_NO_CLOCK_SOURCE;
-						break;
-					}
-					TIMER_STATUS[timer_n] = INIT;
-					return DONE ;
-					break;
-					
-					case CLEAR_OC_MODE :
-					switch(clock_select)
-					{
-						case NO_PRESCALING_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(COM01) | ENABLE(CS00);
-						break;
-						
-						case CLK_8_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(COM01) | ENABLE(CS01);
-						break;
-						
-						case CLK_64_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(COM01) | ENABLE(CS00) | ENABLE(CS01);
-						break;
-						
-						case CLK_256_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(COM01) | ENABLE(CS02);
-						break;
-						
-						case CLK_1024_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(COM01) | ENABLE(CS00) | ENABLE(CS02);
-						break;
-						
-						case FALLING_EDGE_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(COM01) | ENABLE(CS01) | ENABLE(CS02);
-						break;
-						
-						case RISING_EDGE_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(COM01) | ENABLE(CS00) | ENABLE(CS01) | ENABLE(CS02);
-						break;
-						
-						case NO_CLOCK_SOURCE_MODE :
-						return FAILED_NO_CLOCK_SOURCE;
-						break;
-					}
-					TIMER_STATUS[timer_n] = INIT;
-					return DONE ;
-					break;
-					
-					case  SET_OC_MODE :
-					switch(clock_select)
-					{
-						case NO_PRESCALING_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(COM00) | ENABLE(COM01) | ENABLE(CS00);
-						break;
-						
-						case CLK_8_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(COM00) | ENABLE(COM01) | ENABLE(CS01);
-						break;
-						
-						case CLK_64_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(COM00) | ENABLE(COM01) | ENABLE(CS00) | ENABLE(CS01);
-						break;
-						
-						case CLK_256_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(COM00) | ENABLE(COM01) | ENABLE(COM01) | ENABLE(CS02);
-						break;
-						
-						case CLK_1024_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(COM00) | ENABLE(COM01) | ENABLE(CS00) | ENABLE(CS02);
-						break;
-						
-						case FALLING_EDGE_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(COM00) | ENABLE(COM01) | ENABLE(CS01) | ENABLE(CS02);
-						break;
-						
-						case RISING_EDGE_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(COM00) | ENABLE(COM01) | ENABLE(CS00) | ENABLE(CS01) | ENABLE(CS02);
-						break;
-						
-						case NO_CLOCK_SOURCE_MODE :
-						return FAILED_NO_CLOCK_SOURCE;
-						break;
-					}
-					TIMER_STATUS[timer_n] = INIT;
-					return DONE ;
-					break;
-					
-					default:
-					switch(clock_select)
-					{
-						case NO_PRESCALING_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(CS00);
-						break;
-						
-						case CLK_8_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(CS01);
-						break;
-						
-						case CLK_64_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(CS00) | ENABLE(CS01);
-						break;
-						
-						case CLK_256_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(CS02);
-						break;
-						
-						case CLK_1024_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(CS00) | ENABLE(CS02);
-						break;
-						
-						case FALLING_EDGE_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(CS01) | ENABLE(CS02);
-						break;
-						
-						case RISING_EDGE_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(CS00) | ENABLE(CS01) | ENABLE(CS02);
-						break;
-						
-						case NO_CLOCK_SOURCE_MODE :
-						return FAILED_NO_CLOCK_SOURCE;
-						break;
-					}
-					TIMER_STATUS[timer_n] = INIT;
-					return DONE ;
-					break;
-				}
+				TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1);
 				break;
 				
 				case TIMER_0_FAST_PWM_MODE :
-				switch(com)
+				TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0)|ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1);
+				break;
+			}
+			switch(com)
+			{
+				case TOGGLE_OC_MODE : 
+				if ((mode == TIMER_0_PWM_PHASE_CORRECT_MODE )||(mode == TIMER_0_FAST_PWM_MODE))
 				{
-					case TOGGLE_OC_MODE :
-					return FAILED ;
-					break;
-					
-					case CLEAR_OC_MODE :
-					switch(clock_select)
-					{
-						case NO_PRESCALING_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(COM01) | ENABLE(CS00);
-						break;
-						
-						case CLK_8_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(COM01) | ENABLE(CS01);
-						break;
-						
-						case CLK_64_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(COM01) | ENABLE(CS00) | ENABLE(CS01);
-						break;			
-										
-						case CLK_256_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(COM01) | ENABLE(CS02);
-						break;				
-											
-						case CLK_1024_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(COM01) | ENABLE(CS00) | ENABLE(CS02);
-						break;
-						
-						case FALLING_EDGE_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(COM01) | ENABLE(CS01) | ENABLE(CS02);
-						break;
-						
-						case RISING_EDGE_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(COM01) | ENABLE(CS00) | ENABLE(CS01) | ENABLE(CS02);
-						break;
-						
-						case NO_CLOCK_SOURCE_MODE :
-						return FAILED_NO_CLOCK_SOURCE;
-						break;
-					}
-					TIMER_STATUS[timer_n] = INIT;
-					return DONE ;
-					break;
-					
-					case  SET_OC_MODE :
-					switch(clock_select)
-					{
-						case NO_PRESCALING_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(COM00) | ENABLE(COM01) | ENABLE(CS00);
-						break;
-						
-						case CLK_8_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(COM00) | ENABLE(COM01) | ENABLE(CS01);
-						break;
-						
-						case CLK_64_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(COM00) | ENABLE(COM01) | ENABLE(CS00) | ENABLE(CS01);
-						break;
-						
-						case CLK_256_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(COM00) | ENABLE(COM01) | ENABLE(CS02);
-						break;
-						
-						case CLK_1024_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(COM00) | ENABLE(COM01) | ENABLE(CS00) | ENABLE(CS02);
-						break;
-						
-						case FALLING_EDGE_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(COM00) | ENABLE(COM01) | ENABLE(CS01) | ENABLE(CS02);
-						break;
-						
-						case RISING_EDGE_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(COM00) | ENABLE(COM01) | ENABLE(CS00) | ENABLE(CS01) | ENABLE(CS02);
-						break;
-						
-						case NO_CLOCK_SOURCE_MODE :
-						return FAILED_NO_CLOCK_SOURCE;
-						break;
-					}
-					TIMER_STATUS[timer_n] = INIT;
-					return DONE ;
-					break;
-					
-					default:
-					switch(clock_select)
-					{
-						case NO_PRESCALING_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(CS00);
-						break;
-						
-						case CLK_8_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(CS01);
-						break;
-						
-						case CLK_64_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(CS00) | ENABLE(CS01);
-						break;
-						
-						case CLK_256_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(CS02);
-						break;
-						
-						case CLK_1024_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(CS00) | ENABLE(CS02);
-						break;
-						
-						case FALLING_EDGE_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(CS01) | ENABLE(CS02);
-						break;
-						
-						case RISING_EDGE_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1) | ENABLE(CS00) | ENABLE(CS01) | ENABLE(CS02);
-						break;
-						
-						case NO_CLOCK_SOURCE_MODE :
-						return FAILED_NO_CLOCK_SOURCE;
-						break;
-					}
-					TIMER_STATUS[timer_n] = INIT;
-					return DONE ;
-					break;
+					return FAILED;
+				}
+				else{
+					TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_COMPARE_MATCH_BIT_0);
 				}
 				break;
 				
-				default:
-				switch(com)
-				{
-					case TOGGLE_OC_MODE :
-					switch(clock_select)
-					{
-						case NO_PRESCALING_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(COM00) | ENABLE(CS00) ;
-						break;
-						
-						case CLK_8_MODE : 
-						TIMER_0_CONTROL_REG |= ENABLE(COM00) | ENABLE(CS01) ;
-						break;
-						
-						case CLK_64_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(COM00) | ENABLE(CS00) | ENABLE(CS01);
-						break;
-						
-						case CLK_256_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(COM00) | ENABLE(CS02) ;
-						break;
-						
-						case CLK_1024_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(COM00) | ENABLE(CS00) | ENABLE(CS02) ;
-						break;
-						
-						case FALLING_EDGE_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(COM00) | ENABLE(CS01) | ENABLE(CS02) ;
-						break;
-						
-						case RISING_EDGE_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(COM00) | ENABLE(CS00) | ENABLE(CS01) | ENABLE(CS02) ;
-						break;
-						
-						case NO_CLOCK_SOURCE_MODE :
-						return FAILED_NO_CLOCK_SOURCE;
-						break;
-					}
-					TIMER_STATUS[timer_n] = INIT;
-					return DONE ;
-					break;
-					
-					case CLEAR_OC_MODE :
-					switch(clock_select)
-					{
-						case NO_PRESCALING_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(COM01) | ENABLE(CS00) ;
-						break;
-						
-						case CLK_8_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(COM01) | ENABLE(CS01) ;
-						break;
-						
-						case CLK_64_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(COM01) | ENABLE(CS00) | ENABLE(CS01);
-						break;
-						
-						case CLK_256_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(COM01) | ENABLE(CS02) ;
-						break;
-						
-						case CLK_1024_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(COM01) | ENABLE(CS00) | ENABLE(CS02) ;
-						break;
-						
-						case FALLING_EDGE_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(COM01) | ENABLE(CS01) | ENABLE(CS02) ;
-						break;
-						
-						case RISING_EDGE_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(COM01) | ENABLE(CS00) | ENABLE(CS01) | ENABLE(CS02) ;
-						break;
-						
-						case NO_CLOCK_SOURCE_MODE :
-						return FAILED_NO_CLOCK_SOURCE;
-						break;
-					}
-					TIMER_STATUS[timer_n] = INIT;
-					return DONE ;
-					break;
-					
-					case  SET_OC_MODE :
-					switch(clock_select)
-					{
-						case NO_PRESCALING_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(COM00) | ENABLE(COM01) | ENABLE(CS00) ;
-						break;
-						
-						case CLK_8_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(COM00) | ENABLE(COM01) | ENABLE(CS01) ;
-						break;
-						
-						case CLK_64_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(COM00) | ENABLE(COM01) | ENABLE(CS00) | ENABLE(CS01);
-						break;
-						
-						case CLK_256_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(COM00) | ENABLE(COM01) | ENABLE(CS02) ;
-						break;
-						
-						case CLK_1024_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(COM00) | ENABLE(COM01) | ENABLE(CS00) | ENABLE(CS02) ;
-						break;
-						
-						case FALLING_EDGE_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(COM00) | ENABLE(COM01) | ENABLE(CS01) | ENABLE(CS02) ;
-						break;
-						
-						case RISING_EDGE_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(COM00) | ENABLE(COM01) | ENABLE(CS00) | ENABLE(CS01) | ENABLE(CS02) ;
-						break;
-						
-						case NO_CLOCK_SOURCE_MODE :
-						return FAILED_NO_CLOCK_SOURCE;
-						break;
-					}
-					TIMER_STATUS[timer_n] = INIT;
-					return DONE ;
-					break;
-					
-					default:
-					switch(clock_select)
-					{
-						case NO_PRESCALING_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(CS00) ;
-						break;
-						
-						case CLK_8_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(CS01) ;
-						break;
-						
-						case CLK_64_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(CS00) | ENABLE(CS01);
-						break;
-						
-						case CLK_256_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(CS02) ;
-						break;
-						
-						case CLK_1024_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(CS00) | ENABLE(CS02) ;
-						break;
-						
-						case FALLING_EDGE_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(CS01) | ENABLE(CS02) ;
-						break;
-						
-						case RISING_EDGE_MODE :
-						TIMER_0_CONTROL_REG |= ENABLE(CS00) | ENABLE(CS01) | ENABLE(CS02) ;
-						break;
-						
-						case NO_CLOCK_SOURCE_MODE :
-						return FAILED_NO_CLOCK_SOURCE;
-						break;
-					}
-					TIMER_STATUS[timer_n] = INIT;
-					return DONE ;
-					break;
-				}
+				case CLEAR_OC_MODE :
+				TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_COMPARE_MATCH_BIT_1);
+				break;
+				
+				case  SET_OC_MODE : 
+				TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_COMPARE_MATCH_BIT_0) | ENABLE(TIMER_0_COMPARE_MATCH_BIT_1);
 				break;
 			}
+			switch(clock_select)
+			{
+				case NO_CLOCK_SOURCE_MODE : 
+				return FAILED_NO_CLOCK_SOURCE ;
+				break;
+				
+				case NO_PRESCALING_MODE :
+				TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_CLOCK_SELECT_BIT_0);
+				break;
+				
+				case CLK_8_MODE :
+				TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_CLOCK_SELECT_BIT_1);
+				break;
+				
+				case CLK_64_MODE:
+				TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_CLOCK_SELECT_BIT_0) | ENABLE(TIMER_0_CLOCK_SELECT_BIT_1);
+				break;
+				
+				case CLK_256_MODE:
+				TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_CLOCK_SELECT_BIT_2);
+				break;
+				
+				case CLK_1024_MODE:
+				TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_CLOCK_SELECT_BIT_0) | ENABLE(TIMER_0_CLOCK_SELECT_BIT_2);
+				break;
+				
+				case FALLING_EDGE_MODE :
+				TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_CLOCK_SELECT_BIT_1) | ENABLE(TIMER_0_CLOCK_SELECT_BIT_2);
+				break;
+				
+				case RISING_EDGE_MODE :
+				TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_CLOCK_SELECT_BIT_0) | ENABLE(TIMER_0_CLOCK_SELECT_BIT_1) | ENABLE(TIMER_0_CLOCK_SELECT_BIT_2);
+				break;
+			}
+			TIMER_STATUS[timer_n] = INIT;
+			return DONE ;
 		}
 	}
-	else {
-		return FAILED_INIT_BEFORE ;
+	else{
+		return FAILED_INIT_BEFORE;
 	}
-	return DONE ;
+	return TIMER_STATUS[timer_n];
 }
