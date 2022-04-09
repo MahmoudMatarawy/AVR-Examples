@@ -11,15 +11,15 @@
 // TIMER 0 STATUS
 uint8_t TIMER_STATUS[TIMER_NUMBERS];
 
-unsigned int timer_init(uint8_t timer_n , uint8_t mode , uint8_t com , uint32_t clock_select)
+unsigned int timer_init(t_init *param)
 {
-	if (TIMER_STATUS[timer_n] == NOT_INIT)
+	if (TIMER_STATUS[param->timer_n] == NOT_INIT)
 	{
-		switch(timer_n)
+		switch(param->timer_n)
 		{
 			// Timer 0 INIT.
 			case TIMER_0 :
-			switch(mode)
+			switch(param->mode)
 			{
 				case TIMER_0_PWM_PHASE_CORRECT_MODE :
 				TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0);
@@ -33,10 +33,10 @@ unsigned int timer_init(uint8_t timer_n , uint8_t mode , uint8_t com , uint32_t 
 				TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_0)|ENABLE(TIMER_0_WAVEFORME_GENERATOR_MODE_BIT_1);
 				break;
 			}
-			switch(com)
+			switch(param->com)
 			{
 				case TOGGLE_OC_MODE : 
-				if ((mode == TIMER_0_PWM_PHASE_CORRECT_MODE )||(mode == TIMER_0_FAST_PWM_MODE))
+				if ((param->mode == TIMER_0_PWM_PHASE_CORRECT_MODE )||(param->mode == TIMER_0_FAST_PWM_MODE))
 				{
 					return FAILED;
 				}
@@ -53,7 +53,7 @@ unsigned int timer_init(uint8_t timer_n , uint8_t mode , uint8_t com , uint32_t 
 				TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_COMPARE_MATCH_BIT_0) | ENABLE(TIMER_0_COMPARE_MATCH_BIT_1);
 				break;
 			}
-			switch(clock_select)
+			switch(param->clock_select)
 			{
 				case NO_CLOCK_SOURCE_MODE : 
 				return FAILED_NO_CLOCK_SOURCE ;
@@ -87,12 +87,21 @@ unsigned int timer_init(uint8_t timer_n , uint8_t mode , uint8_t com , uint32_t 
 				TIMER_0_CONTROL_REG |= ENABLE(TIMER_0_CLOCK_SELECT_BIT_0) | ENABLE(TIMER_0_CLOCK_SELECT_BIT_1) | ENABLE(TIMER_0_CLOCK_SELECT_BIT_2);
 				break;
 			}
-			TIMER_STATUS[timer_n] = INIT;
+			if(param->compare_match_interrupt_enable == ENABLE_OUTPUT_COMPARE_MATCH_INTERRUPT )
+			{
+				TIMER_INTERRUPT_MASK_REG |= ENABLE(TIMER_0_OUTPUT_COMPARE_MATCH_INTERRUPT_ENABLE); 
+			}
+			
+			if(param->overflow_interrupt_enable == ENABLE_OVERFLOW_INTERRUPT)
+			{
+				TIMER_INTERRUPT_MASK_REG |= ENABLE(TIMER_0_OVERFLOW_INTERRUPT_ENABLE);
+			}
+			TIMER_STATUS[param->timer_n] = INIT;
 			return DONE ;
 		}
 	}
 	else{
 		return FAILED_INIT_BEFORE;
 	}
-	return TIMER_STATUS[timer_n];
+	return TIMER_STATUS[param->timer_n];
 }

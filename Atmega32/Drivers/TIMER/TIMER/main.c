@@ -11,9 +11,12 @@
 
 int main(void)
 {
-	DDRC = 0xff;
-	timer_init(0,TIMER_0_FAST_PWM_MODE,CLEAR_OC_MODE,CLK_8_MODE);
-	//TCNT0 =0;
+	t_init t1;
+	t1.timer_n = TIMER_0;
+	t1.mode = TIMER_0_FAST_PWM_MODE;
+	t1.clock_select = CLK_8_MODE ;
+	t1.com	 = CLEAR_OC_MODE ;
+	timer_init(&t1);
     while (1) 
     {
 		for(int i = 0 ; i<255 ; i++)
