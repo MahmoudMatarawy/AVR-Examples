@@ -34,6 +34,10 @@ typedef struct
 	uint8_t compare_match_B_interrupt_enable;				// For timer 1
 	uint8_t overflow_interrupt_enable;						// For all timers
 	uint8_t input_capture_interrupt_enable;					// For timer 1
+	uint8_t ENABLE_TIMER_0_PIN;								// Set 1 to Enable timer 0 pin as output
+	uint8_t ENABLE_TIMER_1_A_PIN;							// Set 1 to Enable timer 1 A pin as output
+	uint8_t ENABLE_TIMER_1_B_PIN;							// Set 1 to Enable timer 1 B pin as output
+	uint8_t ENABLE_TIMER_2_PIN;								// Set 1 to Enable timer 2 pin as output
 	}t_init;												// Timers INIT parameters struct.
 
 /* -------------------------------------------------------------------------- */
@@ -48,8 +52,7 @@ typedef struct
 /***********************************************************************************************/
 
 
-unsigned int timer_init(t_init *param);
-
+unsigned int TIMER_INIT(t_init *param);
 
 
 #endif /* TIMER_H_ */

@@ -11,7 +11,7 @@
 // TIMER 0 STATUS
 uint8_t TIMER_STATUS[TIMER_NUMBERS];
 
-unsigned int timer_init(t_init *param)
+unsigned int TIMER_INIT(t_init *param)
 {
 	if (TIMER_STATUS[param->timer_n] == NOT_INIT)
 	{
@@ -95,6 +95,11 @@ unsigned int timer_init(t_init *param)
 			if(param->overflow_interrupt_enable == ENABLE_OVERFLOW_INTERRUPT)
 			{
 				TIMER_INTERRUPT_MASK_REG |= ENABLE(TIMER_0_OVERFLOW_INTERRUPT_ENABLE);
+			}
+			
+			if (param->ENABLE_TIMER_0_PIN == INIT)
+			{
+				TIMER_0_DDR |= ENABLE(TIMER_0_PIN);
 			}
 			TIMER_STATUS[param->timer_n] = INIT;
 			return DONE ;
@@ -259,6 +264,16 @@ unsigned int timer_init(t_init *param)
 			{
 				TIMER_INTERRUPT_MASK_REG |= ENABLE(TIMER_1_OVERFLOW_INTERRUPT_ENABLE);
 			}
+			
+			if (param->ENABLE_TIMER_1_A_PIN == INIT)
+			{
+				TIMER_1_A_DDR |= ENABLE(TIMER_1_A_PIN);
+			}
+			
+			if (param->ENABLE_TIMER_1_B_PIN == INIT)
+			{
+				TIMER_1_B_DDR |= ENABLE(TIMER_1_B_PIN);
+			}
 			TIMER_STATUS[param->timer_n] = INIT;
 			return DONE ;
 			break;
@@ -345,6 +360,10 @@ unsigned int timer_init(t_init *param)
 			{
 				TIMER_INTERRUPT_MASK_REG |= ENABLE(TIMER_0_OVERFLOW_INTERRUPT_ENABLE);
 			}
+			if (param->ENABLE_TIMER_2_PIN == INIT)
+			{
+				TIMER_2_DDR |= ENABLE(TIMER_2_PIN);
+			}
 			TIMER_STATUS[param->timer_n] = INIT;
 			return DONE ;
 			break;
@@ -355,3 +374,6 @@ unsigned int timer_init(t_init *param)
 	}
 	return TIMER_STATUS[param->timer_n];
 }
+
+
+

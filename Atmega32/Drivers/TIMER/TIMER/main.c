@@ -16,7 +16,7 @@ int main(void)
 	t1.mode = TIMER_0_FAST_PWM_MODE;
 	t1.clock_select = CLK_8_MODE ;
 	t1.com	 = CLEAR_OC_MODE ;
-	timer_init(&t1);
+	TIMER_INIT(&t1);
     while (1) 
     {
 		for(int i = 0 ; i<255 ; i++)
