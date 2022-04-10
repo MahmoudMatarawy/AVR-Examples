@@ -10,6 +10,8 @@
 
 // TIMER 0 STATUS
 uint8_t TIMER_STATUS[TIMER_NUMBERS];
+uint8_t TIMER_PRESCALER[TIMER_NUMBERS];
+uint8_t TIMER_PIN_STATUS[TIMER_NUMBERS+1];
 
 unsigned int TIMER_INIT(t_init *param)
 {
@@ -102,6 +104,8 @@ unsigned int TIMER_INIT(t_init *param)
 				TIMER_0_DDR |= ENABLE(TIMER_0_PIN);
 			}
 			TIMER_STATUS[param->timer_n] = INIT;
+			TIMER_PRESCALER[param->timer_n] = param->clock_select;
+			TIMER_PIN_STATUS[param->timer_n] = INIT;
 			return DONE ;
 			break;
 			
@@ -268,13 +272,16 @@ unsigned int TIMER_INIT(t_init *param)
 			if (param->ENABLE_TIMER_1_A_PIN == INIT)
 			{
 				TIMER_1_A_DDR |= ENABLE(TIMER_1_A_PIN);
+				TIMER_PIN_STATUS[param->timer_n] = INIT;
 			}
 			
 			if (param->ENABLE_TIMER_1_B_PIN == INIT)
 			{
 				TIMER_1_B_DDR |= ENABLE(TIMER_1_B_PIN);
+				TIMER_PIN_STATUS[(param->timer_n)+2] = INIT;
 			}
 			TIMER_STATUS[param->timer_n] = INIT;
+			TIMER_PRESCALER[param->timer_n] = param->clock_select;
 			return DONE ;
 			break;
 			
@@ -365,6 +372,8 @@ unsigned int TIMER_INIT(t_init *param)
 				TIMER_2_DDR |= ENABLE(TIMER_2_PIN);
 			}
 			TIMER_STATUS[param->timer_n] = INIT;
+			TIMER_PRESCALER[param->timer_n] = param->clock_select;
+			TIMER_PIN_STATUS[param->timer_n] = INIT;
 			return DONE ;
 			break;
 		}
@@ -376,4 +385,95 @@ unsigned int TIMER_INIT(t_init *param)
 }
 
 
+uint8_t TIMER_SET(uint8_t TIMER_n,unsigned int data)
+{
+	if (TIMER_STATUS[TIMER_n] == INIT)
+	{
+		switch(TIMER_n)
+		{
+			case TIMER_0 :
+			TIMER_0_COUNTER_REG = data;
+			break;
+			
+			case TIMER_1 :
+			TIMER_1_COUNTER_REG = data;
+			break;
+			
+			case TIMER_2 :
+			TIMER_2_COUNTER_REG = data;
+			break;
+		}
+	}
+	else{
+		return FAILED;
+	}
+	return DONE;
+}
 
+t_status TIMER_READ(uint8_t TIMER_n)
+{
+	t_status st;
+	if (TIMER_STATUS[TIMER_n] == INIT)
+	{
+		switch(TIMER_n)
+		{
+			case TIMER_0 :
+			st.data = TIMER_0_COUNTER_REG;
+			break;
+			
+			case TIMER_1 :
+			st.data = TIMER_1_COUNTER_REG;
+			break;
+			
+			case TIMER_2 :
+			st.data = TIMER_2_COUNTER_REG;
+			break;
+		}
+		st.status = DONE ;
+	}
+	else{
+		st.status = FAILED;
+	}
+	return st ;
+}
+
+
+uint8_t TIMER_SET_DUTY(t_out *param)
+{
+	if (TIMER_STATUS[param->TIMER_n] == INIT)
+	{
+		if (TIMER_PIN_STATUS[(param->TIMER_n)+(param->TIMER_PIN)] == INIT)
+		{
+			switch(param->TIMER_n)
+			{
+				case TIMER_0 :
+				TIMER_0_OUTPUT_COMPARE_REG =  ((((param->duty)*255))/100)+1;
+				break;
+				
+				case TIMER_1 :
+				switch(param->TIMER_PIN)
+				{
+					case 0 :
+					TIMER_1_OUTPUT_COMPARE_A_REG = ((((param->duty)*255))/100)+1;
+					break;
+					
+					case 1 :
+					TIMER_1_OUTPUT_COMPARE_B_REG = ((((param->duty)*255))/100)+1;
+					break;
+				}
+				break;
+				
+				case TIMER_2 :
+				TIMER_2_OUTPUT_COMPARE_REG = ((((param->duty)*255)+1)/100);
+				break;
+			}
+		}
+		else{
+			return FAILED;
+		}
+	}
+	else{
+		return FAILED;
+	}
+	return DONE;
+}
