@@ -45,7 +45,7 @@ typedef struct
 /*    Function Description    : This function initializes the module						   */
 /*    Parameter in            : t_init *param												   */
 /*    Return value            : FAILED OR DONE OR FAILED_INIT_BEFORE OR FAILED_NO_CLOCK_SOURCE */ 
-/***********************************************************************************************/                                                   */
+/***********************************************************************************************/
 
 
 unsigned int timer_init(t_init *param);

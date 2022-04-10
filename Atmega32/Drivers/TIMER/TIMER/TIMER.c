@@ -103,7 +103,7 @@ unsigned int timer_init(t_init *param)
 			
 			// Timer 1
 			case TIMER_1 :
-			switch(t_init->mode)
+			switch(param->mode)
 			{
 				case TIMER_1_PWM_PHASE_CORRECT_8_MODE:
 				TIMER_1_CONTROL_A_REG |= ENABLE(TIMER_1_WAVEFORME_GENERATOR_MODE_BIT_0);
@@ -175,7 +175,7 @@ unsigned int timer_init(t_init *param)
 				break;
 			}
 			
-			switch(t_init->com1a)
+			switch(param->com1a)
 			{
 				case TOGGLE_OC_OCR1A_MODE:
 				TIMER_1_CONTROL_A_REG |= ENABLE(TIMER_1_COMPARE_MATCH_BIT_A_0);
@@ -190,7 +190,7 @@ unsigned int timer_init(t_init *param)
 				break;
 			}
 			
-			switch(t_init->com1b)
+			switch(param->com1b)
 			{
 				case TOGGLE_OC_OCR1B_MODE:
 				TIMER_1_CONTROL_A_REG |= ENABLE(TIMER_1_COMPARE_MATCH_BIT_B_0);
@@ -205,7 +205,7 @@ unsigned int timer_init(t_init *param)
 				break;
 			}
 			
-			switch(t_init->clock_select)
+			switch(param->clock_select)
 			{
 				case NO_CLOCK_SOURCE_MODE : 
 				return FAILED_NO_CLOCK_SOURCE;
@@ -266,6 +266,87 @@ unsigned int timer_init(t_init *param)
 			
 			// TIIMER 2
 			case TIMER_2:
+			switch(param->mode)
+			{
+				case TIMER_2_PWM_PHASE_CORRECT_MODE:
+				TIMER_2_CONTROL_REG |= ENABLE(TIMER_2_WAVEFORME_GENERATOR_MODE_BIT_0);
+				break;
+				
+				case TIMER_2_CTC_MODE:
+				TIMER_2_CONTROL_REG |= ENABLE(TIMER_2_WAVEFORME_GENERATOR_MODE_BIT_1);
+				break;
+				
+				case TIMER_2_FAST_PWM_MODE:
+				TIMER_2_CONTROL_REG |= ENABLE(TIMER_2_WAVEFORME_GENERATOR_MODE_BIT_0) | ENABLE(TIMER_2_WAVEFORME_GENERATOR_MODE_BIT_1);
+				break;
+			}
+			
+			switch(param->com)
+			{
+				case TOGGLE_OC_MODE :
+				if ((param->mode == TIMER_2_PWM_PHASE_CORRECT_MODE )||(param->mode == TIMER_2_FAST_PWM_MODE))
+				{
+					return FAILED;
+				}
+				else{
+					TIMER_2_CONTROL_REG |= ENABLE(TIMER_2_COMPARE_MATCH_BIT_0);
+				}
+				break;
+				
+				case CLEAR_OC_MODE :
+				TIMER_2_CONTROL_REG |= ENABLE(TIMER_2_COMPARE_MATCH_BIT_1);
+				break;
+				
+				case  SET_OC_MODE :
+				TIMER_2_CONTROL_REG |= ENABLE(TIMER_2_COMPARE_MATCH_BIT_0) | ENABLE(TIMER_2_COMPARE_MATCH_BIT_1);
+				break;
+			}
+			
+			switch(param->clock_select)
+			{
+				case NO_CLOCK_SOURCE_MODE :
+				return FAILED_NO_CLOCK_SOURCE ;
+				break;
+				
+				case NO_PRESCALING_MODE :
+				TIMER_2_CONTROL_REG |= ENABLE(TIMER_2_CLOCK_SELECT_BIT_0);
+				break;
+				
+				case CLK_8_MODE :
+				TIMER_2_CONTROL_REG |= ENABLE(TIMER_2_CLOCK_SELECT_BIT_1);
+				break;
+				
+				case CLK_32_MODE:
+				TIMER_2_CONTROL_REG |= ENABLE(TIMER_2_CLOCK_SELECT_BIT_0) | ENABLE(TIMER_2_CLOCK_SELECT_BIT_1);
+				break;
+				
+				case CLK_64_MODE:
+				TIMER_2_CONTROL_REG |= ENABLE(TIMER_2_CLOCK_SELECT_BIT_2);
+				break;
+				
+				case CLK_128_MODE:
+				TIMER_2_CONTROL_REG |= ENABLE(TIMER_2_CLOCK_SELECT_BIT_0) | ENABLE(TIMER_2_CLOCK_SELECT_BIT_2);
+				break;
+				
+				case CLK_256_MODE :
+				TIMER_2_CONTROL_REG |= ENABLE(TIMER_2_CLOCK_SELECT_BIT_1) | ENABLE(TIMER_2_CLOCK_SELECT_BIT_2);
+				break;
+				
+				case CLK_1024_MODE :
+				TIMER_2_CONTROL_REG |= ENABLE(TIMER_2_CLOCK_SELECT_BIT_0) | ENABLE(TIMER_2_CLOCK_SELECT_BIT_1) | ENABLE(TIMER_2_CLOCK_SELECT_BIT_2);
+				break;
+			}
+			if(param->compare_match_interrupt_enable == ENABLE_OUTPUT_COMPARE_MATCH_INTERRUPT )
+			{
+				TIMER_INTERRUPT_MASK_REG |= ENABLE(TIMER_0_OUTPUT_COMPARE_MATCH_INTERRUPT_ENABLE);
+			}
+			
+			if(param->overflow_interrupt_enable == ENABLE_OVERFLOW_INTERRUPT)
+			{
+				TIMER_INTERRUPT_MASK_REG |= ENABLE(TIMER_0_OVERFLOW_INTERRUPT_ENABLE);
+			}
+			TIMER_STATUS[param->timer_n] = INIT;
+			return DONE ;
 			break;
 		}
 	}
