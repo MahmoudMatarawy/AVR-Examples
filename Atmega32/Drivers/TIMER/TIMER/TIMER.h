@@ -23,14 +23,18 @@
 
 typedef struct  
 {
-	uint8_t timer_n;
-	uint8_t mode ;
-	uint8_t com ;
-	uint32_t clock_select;
-	uint8_t compare_match_interrupt_enable;
-	uint8_t overflow_interrupt_enable;
-	uint8_t input_capture_interrupt_enable;
-	}t_init;
+	uint8_t timer_n;										// For all timers
+	uint8_t mode ;											// For all timers
+	uint8_t com ;											// For timer 0 and 2
+	uint8_t com1a ;											// For timer 1
+	uint8_t com1b ;											// For timer 1
+	uint32_t clock_select;									// For all timers
+	uint8_t compare_match_interrupt_enable;					// For timer 0 and 2
+	uint8_t compare_match_A_interrupt_enable;				// For timer 1
+	uint8_t compare_match_B_interrupt_enable;				// For timer 1
+	uint8_t overflow_interrupt_enable;						// For all timers
+	uint8_t input_capture_interrupt_enable;					// For timer 1
+	}t_init;												// Timers INIT parameters struct.
 
 /* -------------------------------------------------------------------------- */
 /*                             Functions Prototype                            */
