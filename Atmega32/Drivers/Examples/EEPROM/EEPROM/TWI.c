@@ -22,9 +22,9 @@ void twi_init(void)
 void twi_start(void)
 {
 	// SET TWI to start mode 
-	TWCR = (1<<TWINT)|(1<<TWSTA)|(1<<TWEN);
+	TWCR = (1<<TWINT)|(1<<TWEN)|(1<<TWSTA);
 	// WAIT till TWI start 
-	while ((TWCR & (1<<TWINT))==0);
+	while (!(TWCR&(1<<TWINT)));
 }
 
 // function to stop TWI
@@ -35,18 +35,18 @@ void twi_stop(void)
 }
 
 // function to write 
-void twi_write(uint8_t u8_data)
+void twi_write(uint8_t ui_data)
 {
-	TWDR = u8_data;
+	TWDR = ui_data;
 	TWCR = (1<<TWINT)|(1<<TWEN);
-	while ((TWCR & (1<<TWINT))==0);
+	while (!(TWCR & (1<<TWINT)));
 }
 
 // function to read in ACK mode
 uint8_t twi_read_ack(void)
 {
 	TWCR = (1<<TWINT)|(1<<TWEN)|(1<<TWEA);
-	while ((TWCR & (1<<TWINT))==0);
+	while (!(TWCR & (1<<TWINT)));
 	return TWDR;
 }
 
@@ -54,8 +54,8 @@ uint8_t twi_read_ack(void)
 uint8_t twi_read_Nack(void)
 {
 	TWCR = (1<<TWINT)|(1<<TWEN);
-	while ((TWCR & (1<<TWINT))==0);
-	return TWDR;
+	while(!(TWCR&(1<<TWINT)));
+	return TWDR ;
 }
 
 // function to get the status of TWI 
