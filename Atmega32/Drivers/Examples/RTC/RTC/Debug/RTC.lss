@@ -1,0 +1,251 @@
+
+RTC.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000144  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  00000198  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  00000198  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000001c8  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 000000a8  00000000  00000000  00000204  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   00000b18  00000000  00000000  000002ac  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 0000070a  00000000  00000000  00000dc4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   00000535  00000000  00000000  000014ce  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000144  00000000  00000000  00001a04  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    0000039c  00000000  00000000  00001b48  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    000001d9  00000000  00000000  00001ee4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000078  00000000  00000000  000020bd  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   8:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  10:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  14:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  18:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  1c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  20:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  24:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  28:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  2c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  30:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  34:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  38:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  3c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  40:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  44:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  48:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  4c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  50:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+  60:	0e 94 36 00 	call	0x6c	; 0x6c <main>
+  64:	0c 94 a0 00 	jmp	0x140	; 0x140 <_exit>
+
+00000068 <__bad_interrupt>:
+  68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000006c <main>:
+
+#include "RTC.h"
+
+
+int main(void)
+{
+  6c:	cf 93       	push	r28
+  6e:	df 93       	push	r29
+  70:	cd b7       	in	r28, 0x3d	; 61
+  72:	de b7       	in	r29, 0x3e	; 62
+  74:	27 97       	sbiw	r28, 0x07	; 7
+  76:	0f b6       	in	r0, 0x3f	; 63
+  78:	f8 94       	cli
+  7a:	de bf       	out	0x3e, r29	; 62
+  7c:	0f be       	out	0x3f, r0	; 63
+  7e:	cd bf       	out	0x3d, r28	; 61
+	twi_init();
+  80:	0e 94 8a 00 	call	0x114	; 0x114 <twi_init>
+	RTC_DATE_DATA date ;
+	RTC_TIME_DATA time ;
+	date.day = 0x03;
+  84:	83 e0       	ldi	r24, 0x03	; 3
+  86:	89 83       	std	Y+1, r24	; 0x01
+	date.mon = 0x10;
+  88:	80 e1       	ldi	r24, 0x10	; 16
+  8a:	8a 83       	std	Y+2, r24	; 0x02
+	date.yr  = 0x93;
+  8c:	23 e9       	ldi	r18, 0x93	; 147
+  8e:	30 e0       	ldi	r19, 0x00	; 0
+  90:	3c 83       	std	Y+4, r19	; 0x04
+  92:	2b 83       	std	Y+3, r18	; 0x03
+	time.sec = 0x40;
+  94:	90 e4       	ldi	r25, 0x40	; 64
+  96:	9d 83       	std	Y+5, r25	; 0x05
+	time.min = 0x25;
+  98:	95 e2       	ldi	r25, 0x25	; 37
+  9a:	9e 83       	std	Y+6, r25	; 0x06
+	time.hr  = 0x10;
+  9c:	8f 83       	std	Y+7, r24	; 0x07
+	RTC_SET_TIME(&time);
+  9e:	ce 01       	movw	r24, r28
+  a0:	05 96       	adiw	r24, 0x05	; 5
+  a2:	0e 94 58 00 	call	0xb0	; 0xb0 <RTC_SET_TIME>
+	RTC_SET_DATE(&date);
+  a6:	ce 01       	movw	r24, r28
+  a8:	01 96       	adiw	r24, 0x01	; 1
+  aa:	0e 94 71 00 	call	0xe2	; 0xe2 <RTC_SET_DATE>
+  ae:	ff cf       	rjmp	.-2      	; 0xae <main+0x42>
+
+000000b0 <RTC_SET_TIME>:
+ * Email  : eng.mahmoud.adel94@gmail.com
+ */ 
+#include "RTC.h"
+
+void RTC_SET_TIME(RTC_TIME_DATA *param)
+{
+  b0:	cf 93       	push	r28
+  b2:	df 93       	push	r29
+  b4:	ec 01       	movw	r28, r24
+	twi_start();
+  b6:	0e 94 90 00 	call	0x120	; 0x120 <twi_start>
+	twi_write(0xD0);		// Device address for writing
+  ba:	80 ed       	ldi	r24, 0xD0	; 208
+  bc:	0e 94 99 00 	call	0x132	; 0x132 <twi_write>
+	twi_write(0);			// set register pointer to 0
+  c0:	80 e0       	ldi	r24, 0x00	; 0
+  c2:	0e 94 99 00 	call	0x132	; 0x132 <twi_write>
+	twi_write(param->sec);
+  c6:	88 81       	ld	r24, Y
+  c8:	0e 94 99 00 	call	0x132	; 0x132 <twi_write>
+	twi_write(param->min);
+  cc:	89 81       	ldd	r24, Y+1	; 0x01
+  ce:	0e 94 99 00 	call	0x132	; 0x132 <twi_write>
+	twi_write(param->hr);
+  d2:	8a 81       	ldd	r24, Y+2	; 0x02
+  d4:	0e 94 99 00 	call	0x132	; 0x132 <twi_write>
+	twi_stop();
+  d8:	0e 94 96 00 	call	0x12c	; 0x12c <twi_stop>
+}
+  dc:	df 91       	pop	r29
+  de:	cf 91       	pop	r28
+  e0:	08 95       	ret
+
+000000e2 <RTC_SET_DATE>:
+
+void RTC_SET_DATE(RTC_DATE_DATA *param)
+{
+  e2:	cf 93       	push	r28
+  e4:	df 93       	push	r29
+  e6:	ec 01       	movw	r28, r24
+	twi_start();
+  e8:	0e 94 90 00 	call	0x120	; 0x120 <twi_start>
+	twi_write(0xD0);		// Device address for writing
+  ec:	80 ed       	ldi	r24, 0xD0	; 208
+  ee:	0e 94 99 00 	call	0x132	; 0x132 <twi_write>
+	twi_write(0x04);			// set register pointer to 4
+  f2:	84 e0       	ldi	r24, 0x04	; 4
+  f4:	0e 94 99 00 	call	0x132	; 0x132 <twi_write>
+	twi_write(param->day);
+  f8:	88 81       	ld	r24, Y
+  fa:	0e 94 99 00 	call	0x132	; 0x132 <twi_write>
+	twi_write(param->mon);
+  fe:	89 81       	ldd	r24, Y+1	; 0x01
+ 100:	0e 94 99 00 	call	0x132	; 0x132 <twi_write>
+	twi_write(param->yr);
+ 104:	8a 81       	ldd	r24, Y+2	; 0x02
+ 106:	0e 94 99 00 	call	0x132	; 0x132 <twi_write>
+	twi_stop();
+ 10a:	0e 94 96 00 	call	0x12c	; 0x12c <twi_stop>
+}
+ 10e:	df 91       	pop	r29
+ 110:	cf 91       	pop	r28
+ 112:	08 95       	ret
+
+00000114 <twi_init>:
+
+// Function to initialize TWI 
+void twi_init(void)
+{
+	// set SCL to 100KHZ
+	TWSR = 0X00;
+ 114:	11 b8       	out	0x01, r1	; 1
+	TWBR = 32;
+ 116:	80 e2       	ldi	r24, 0x20	; 32
+ 118:	80 b9       	out	0x00, r24	; 0
+	//enable TWI 
+	TWCR = (1<<TWEN);
+ 11a:	84 e0       	ldi	r24, 0x04	; 4
+ 11c:	86 bf       	out	0x36, r24	; 54
+ 11e:	08 95       	ret
+
+00000120 <twi_start>:
+
+// function to start TWI
+void twi_start(void)
+{
+	// SET TWI to start mode 
+	TWCR = (1<<TWINT)|(1<<TWSTA)|(1<<TWEN);
+ 120:	84 ea       	ldi	r24, 0xA4	; 164
+ 122:	86 bf       	out	0x36, r24	; 54
+	// WAIT till TWI start 
+	while ((TWCR & (1<<TWINT))==0);
+ 124:	06 b6       	in	r0, 0x36	; 54
+ 126:	07 fe       	sbrs	r0, 7
+ 128:	fd cf       	rjmp	.-6      	; 0x124 <twi_start+0x4>
+}
+ 12a:	08 95       	ret
+
+0000012c <twi_stop>:
+
+// function to stop TWI
+void twi_stop(void)
+{
+	// SET TWI to stop mode 
+	TWCR = (1<<TWINT)|(1<<TWEN)|(1<<TWSTO);
+ 12c:	84 e9       	ldi	r24, 0x94	; 148
+ 12e:	86 bf       	out	0x36, r24	; 54
+ 130:	08 95       	ret
+
+00000132 <twi_write>:
+}
+
+// function to write 
+void twi_write(uint8_t u8_data)
+{
+	TWDR = u8_data;
+ 132:	83 b9       	out	0x03, r24	; 3
+	TWCR = (1<<TWINT)|(1<<TWEN);
+ 134:	84 e8       	ldi	r24, 0x84	; 132
+ 136:	86 bf       	out	0x36, r24	; 54
+	while ((TWCR & (1<<TWINT))==0);
+ 138:	06 b6       	in	r0, 0x36	; 54
+ 13a:	07 fe       	sbrs	r0, 7
+ 13c:	fd cf       	rjmp	.-6      	; 0x138 <twi_write+0x6>
+}
+ 13e:	08 95       	ret
+
+00000140 <_exit>:
+ 140:	f8 94       	cli
+
+00000142 <__stop_program>:
+ 142:	ff cf       	rjmp	.-2      	; 0x142 <__stop_program>
