@@ -112,6 +112,7 @@ uint16_t ADC_READ(uint8_t channel)
 	uint16_t data=0;
 	if (ADC_STATUS == INIT)
 	{
+		ADC_MULTIPLEXER_SELECTION_REG |= (ADC_MULTIPLEXER_SELECTION_REG&0xf8);
 		switch(channel)
 		{
 			case CHANNEL_1 :

@@ -3,31 +3,31 @@ ADC.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         00000246  00000000  00000000  00000074  2**1
+  0 .text         00000250  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000000  00800060  00800060  000002ba  2**0
+  1 .data         00000000  00800060  00800060  000002c4  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          00000001  00800060  00800060  000002ba  2**0
+  2 .bss          00000001  00800060  00800060  000002c4  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  000002ba  2**0
+  3 .comment      00000030  00000000  00000000  000002c4  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000002ec  2**2
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000002f4  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000048  00000000  00000000  00000328  2**0
+  5 .debug_aranges 00000048  00000000  00000000  00000330  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   000008ec  00000000  00000000  00000370  2**0
+  6 .debug_info   000008ec  00000000  00000000  00000378  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000705  00000000  00000000  00000c5c  2**0
+  7 .debug_abbrev 00000705  00000000  00000000  00000c64  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000004ff  00000000  00000000  00001361  2**0
+  8 .debug_line   00000505  00000000  00000000  00001369  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000068  00000000  00000000  00001860  2**2
+  9 .debug_frame  00000068  00000000  00000000  00001870  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000435  00000000  00000000  000018c8  2**0
+ 10 .debug_str    00000435  00000000  00000000  000018d8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000001d2  00000000  00000000  00001cfd  2**0
+ 11 .debug_loc    000001d2  00000000  00000000  00001d0d  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000028  00000000  00000000  00001ecf  2**0
+ 12 .debug_ranges 00000028  00000000  00000000  00001edf  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -83,8 +83,8 @@ Disassembly of section .text:
   78:	a1 36       	cpi	r26, 0x61	; 97
   7a:	b2 07       	cpc	r27, r18
   7c:	e1 f7       	brne	.-8      	; 0x76 <.do_clear_bss_loop>
-  7e:	0e 94 fa 00 	call	0x1f4	; 0x1f4 <main>
-  82:	0c 94 21 01 	jmp	0x242	; 0x242 <_exit>
+  7e:	0e 94 ff 00 	call	0x1fe	; 0x1fe <main>
+  82:	0c 94 26 01 	jmp	0x24c	; 0x24c <_exit>
 
 00000086 <__bad_interrupt>:
   86:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -247,7 +247,7 @@ void ADC_INIT(ADC_CONFIG *param)
  13a:	f8 f4       	brcc	.+62     	; 0x17a <ADC_INIT+0xf0>
  13c:	e6 5d       	subi	r30, 0xD6	; 214
  13e:	ff 4f       	sbci	r31, 0xFF	; 255
- 140:	0c 94 1b 01 	jmp	0x236	; 0x236 <__tablejump2__>
+ 140:	0c 94 20 01 	jmp	0x240	; 0x240 <__tablejump2__>
 	{
 		case ANALOG_COMPARATOR :
 		SPECIAL_FUNCTION_REG |= ENABLE(ADC_AUTO_TRIGGER_SOURCE_BIT_0);
@@ -318,176 +318,182 @@ uint16_t ADC_READ(uint8_t channel)
 	if (ADC_STATUS == INIT)
  182:	90 91 60 00 	lds	r25, 0x0060	; 0x800060 <__DATA_REGION_ORIGIN__>
  186:	91 30       	cpi	r25, 0x01	; 1
- 188:	91 f5       	brne	.+100    	; 0x1ee <ADC_READ+0x6c>
+ 188:	b9 f5       	brne	.+110    	; 0x1f8 <ADC_READ+0x76>
 	{
+		ADC_MULTIPLEXER_SELECTION_REG |= (ADC_MULTIPLEXER_SELECTION_REG&0xf8);
+ 18a:	97 b1       	in	r25, 0x07	; 7
+ 18c:	27 b1       	in	r18, 0x07	; 7
+ 18e:	98 7f       	andi	r25, 0xF8	; 248
+ 190:	92 2b       	or	r25, r18
+ 192:	97 b9       	out	0x07, r25	; 7
 		switch(channel)
- 18a:	83 30       	cpi	r24, 0x03	; 3
- 18c:	a1 f0       	breq	.+40     	; 0x1b6 <ADC_READ+0x34>
- 18e:	28 f4       	brcc	.+10     	; 0x19a <ADC_READ+0x18>
- 190:	81 30       	cpi	r24, 0x01	; 1
- 192:	49 f0       	breq	.+18     	; 0x1a6 <ADC_READ+0x24>
- 194:	82 30       	cpi	r24, 0x02	; 2
- 196:	59 f0       	breq	.+22     	; 0x1ae <ADC_READ+0x2c>
- 198:	1d c0       	rjmp	.+58     	; 0x1d4 <ADC_READ+0x52>
- 19a:	85 30       	cpi	r24, 0x05	; 5
- 19c:	a1 f0       	breq	.+40     	; 0x1c6 <ADC_READ+0x44>
- 19e:	78 f0       	brcs	.+30     	; 0x1be <ADC_READ+0x3c>
- 1a0:	86 30       	cpi	r24, 0x06	; 6
- 1a2:	a9 f0       	breq	.+42     	; 0x1ce <ADC_READ+0x4c>
- 1a4:	17 c0       	rjmp	.+46     	; 0x1d4 <ADC_READ+0x52>
+ 194:	83 30       	cpi	r24, 0x03	; 3
+ 196:	a1 f0       	breq	.+40     	; 0x1c0 <ADC_READ+0x3e>
+ 198:	28 f4       	brcc	.+10     	; 0x1a4 <ADC_READ+0x22>
+ 19a:	81 30       	cpi	r24, 0x01	; 1
+ 19c:	49 f0       	breq	.+18     	; 0x1b0 <ADC_READ+0x2e>
+ 19e:	82 30       	cpi	r24, 0x02	; 2
+ 1a0:	59 f0       	breq	.+22     	; 0x1b8 <ADC_READ+0x36>
+ 1a2:	1d c0       	rjmp	.+58     	; 0x1de <ADC_READ+0x5c>
+ 1a4:	85 30       	cpi	r24, 0x05	; 5
+ 1a6:	a1 f0       	breq	.+40     	; 0x1d0 <ADC_READ+0x4e>
+ 1a8:	78 f0       	brcs	.+30     	; 0x1c8 <ADC_READ+0x46>
+ 1aa:	86 30       	cpi	r24, 0x06	; 6
+ 1ac:	a9 f0       	breq	.+42     	; 0x1d8 <ADC_READ+0x56>
+ 1ae:	17 c0       	rjmp	.+46     	; 0x1de <ADC_READ+0x5c>
 		{
 			case CHANNEL_1 :
 			ADC_MULTIPLEXER_SELECTION_REG |= ENABLE(ANALOG_CHANNEL_SELECTION_BIT_0);
- 1a6:	87 b1       	in	r24, 0x07	; 7
- 1a8:	81 60       	ori	r24, 0x01	; 1
- 1aa:	87 b9       	out	0x07, r24	; 7
+ 1b0:	87 b1       	in	r24, 0x07	; 7
+ 1b2:	81 60       	ori	r24, 0x01	; 1
+ 1b4:	87 b9       	out	0x07, r24	; 7
 			break;
- 1ac:	13 c0       	rjmp	.+38     	; 0x1d4 <ADC_READ+0x52>
+ 1b6:	13 c0       	rjmp	.+38     	; 0x1de <ADC_READ+0x5c>
 			
 			case CHANNEL_2 :
 			ADC_MULTIPLEXER_SELECTION_REG |= ENABLE(ANALOG_CHANNEL_SELECTION_BIT_1);
- 1ae:	87 b1       	in	r24, 0x07	; 7
- 1b0:	82 60       	ori	r24, 0x02	; 2
- 1b2:	87 b9       	out	0x07, r24	; 7
+ 1b8:	87 b1       	in	r24, 0x07	; 7
+ 1ba:	82 60       	ori	r24, 0x02	; 2
+ 1bc:	87 b9       	out	0x07, r24	; 7
 			break;
- 1b4:	0f c0       	rjmp	.+30     	; 0x1d4 <ADC_READ+0x52>
+ 1be:	0f c0       	rjmp	.+30     	; 0x1de <ADC_READ+0x5c>
 			
 			case CHANNEL_3 :
 			ADC_MULTIPLEXER_SELECTION_REG |= ENABLE(ANALOG_CHANNEL_SELECTION_BIT_0) | ENABLE(ANALOG_CHANNEL_SELECTION_BIT_1);
- 1b6:	87 b1       	in	r24, 0x07	; 7
- 1b8:	83 60       	ori	r24, 0x03	; 3
- 1ba:	87 b9       	out	0x07, r24	; 7
+ 1c0:	87 b1       	in	r24, 0x07	; 7
+ 1c2:	83 60       	ori	r24, 0x03	; 3
+ 1c4:	87 b9       	out	0x07, r24	; 7
 			break;
- 1bc:	0b c0       	rjmp	.+22     	; 0x1d4 <ADC_READ+0x52>
+ 1c6:	0b c0       	rjmp	.+22     	; 0x1de <ADC_READ+0x5c>
 			
 			case CHANNEL_4 :
 			ADC_MULTIPLEXER_SELECTION_REG |= ENABLE(ANALOG_CHANNEL_SELECTION_BIT_2);
- 1be:	87 b1       	in	r24, 0x07	; 7
- 1c0:	84 60       	ori	r24, 0x04	; 4
- 1c2:	87 b9       	out	0x07, r24	; 7
+ 1c8:	87 b1       	in	r24, 0x07	; 7
+ 1ca:	84 60       	ori	r24, 0x04	; 4
+ 1cc:	87 b9       	out	0x07, r24	; 7
 			break;
- 1c4:	07 c0       	rjmp	.+14     	; 0x1d4 <ADC_READ+0x52>
+ 1ce:	07 c0       	rjmp	.+14     	; 0x1de <ADC_READ+0x5c>
 			
 			case CHANNEL_5 :
 			ADC_MULTIPLEXER_SELECTION_REG |= ENABLE(ANALOG_CHANNEL_SELECTION_BIT_0) | ENABLE(ANALOG_CHANNEL_SELECTION_BIT_2);
- 1c6:	87 b1       	in	r24, 0x07	; 7
- 1c8:	85 60       	ori	r24, 0x05	; 5
- 1ca:	87 b9       	out	0x07, r24	; 7
+ 1d0:	87 b1       	in	r24, 0x07	; 7
+ 1d2:	85 60       	ori	r24, 0x05	; 5
+ 1d4:	87 b9       	out	0x07, r24	; 7
 			break;
- 1cc:	03 c0       	rjmp	.+6      	; 0x1d4 <ADC_READ+0x52>
+ 1d6:	03 c0       	rjmp	.+6      	; 0x1de <ADC_READ+0x5c>
 			
 			case CHANNEL_6 :
 			ADC_MULTIPLEXER_SELECTION_REG |= ENABLE(ANALOG_CHANNEL_SELECTION_BIT_1) | ENABLE(ANALOG_CHANNEL_SELECTION_BIT_2);
- 1ce:	87 b1       	in	r24, 0x07	; 7
- 1d0:	86 60       	ori	r24, 0x06	; 6
- 1d2:	87 b9       	out	0x07, r24	; 7
+ 1d8:	87 b1       	in	r24, 0x07	; 7
+ 1da:	86 60       	ori	r24, 0x06	; 6
+ 1dc:	87 b9       	out	0x07, r24	; 7
 			break;
 		}
 		ADC_CONTROL_AND_STATUS_A_REG |= ENABLE(ADC_START_CONVERSION);
- 1d4:	86 b1       	in	r24, 0x06	; 6
- 1d6:	80 64       	ori	r24, 0x40	; 64
- 1d8:	86 b9       	out	0x06, r24	; 6
+ 1de:	86 b1       	in	r24, 0x06	; 6
+ 1e0:	80 64       	ori	r24, 0x40	; 64
+ 1e2:	86 b9       	out	0x06, r24	; 6
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
- 1da:	8a e1       	ldi	r24, 0x1A	; 26
- 1dc:	8a 95       	dec	r24
- 1de:	f1 f7       	brne	.-4      	; 0x1dc <ADC_READ+0x5a>
- 1e0:	00 c0       	rjmp	.+0      	; 0x1e2 <ADC_READ+0x60>
+ 1e4:	8a e1       	ldi	r24, 0x1A	; 26
+ 1e6:	8a 95       	dec	r24
+ 1e8:	f1 f7       	brne	.-4      	; 0x1e6 <ADC_READ+0x64>
+ 1ea:	00 c0       	rjmp	.+0      	; 0x1ec <ADC_READ+0x6a>
 		_delay_us(10);
 		while(!(ADC_CONTROL_AND_STATUS_A_REG&&(ENABLE(ADC_INTERRUPT_FLAG))));
- 1e2:	86 b1       	in	r24, 0x06	; 6
- 1e4:	88 23       	and	r24, r24
- 1e6:	e9 f3       	breq	.-6      	; 0x1e2 <ADC_READ+0x60>
+ 1ec:	86 b1       	in	r24, 0x06	; 6
+ 1ee:	88 23       	and	r24, r24
+ 1f0:	e9 f3       	breq	.-6      	; 0x1ec <ADC_READ+0x6a>
 		data = ADC_DATA_REG;
- 1e8:	84 b1       	in	r24, 0x04	; 4
- 1ea:	95 b1       	in	r25, 0x05	; 5
- 1ec:	08 95       	ret
+ 1f2:	84 b1       	in	r24, 0x04	; 4
+ 1f4:	95 b1       	in	r25, 0x05	; 5
+ 1f6:	08 95       	ret
 
 
 
 uint16_t ADC_READ(uint8_t channel)
 {
 	uint16_t data=0;
- 1ee:	80 e0       	ldi	r24, 0x00	; 0
- 1f0:	90 e0       	ldi	r25, 0x00	; 0
+ 1f8:	80 e0       	ldi	r24, 0x00	; 0
+ 1fa:	90 e0       	ldi	r25, 0x00	; 0
 		_delay_us(10);
 		while(!(ADC_CONTROL_AND_STATUS_A_REG&&(ENABLE(ADC_INTERRUPT_FLAG))));
 		data = ADC_DATA_REG;
 	}
 	return data;
- 1f2:	08 95       	ret
+ 1fc:	08 95       	ret
 
-000001f4 <main>:
+000001fe <main>:
 
 #include "ADC.h"
 
 
 int main(void)
 {
- 1f4:	cf 93       	push	r28
- 1f6:	df 93       	push	r29
- 1f8:	00 d0       	rcall	.+0      	; 0x1fa <main+0x6>
- 1fa:	00 d0       	rcall	.+0      	; 0x1fc <main+0x8>
- 1fc:	00 d0       	rcall	.+0      	; 0x1fe <main+0xa>
- 1fe:	cd b7       	in	r28, 0x3d	; 61
- 200:	de b7       	in	r29, 0x3e	; 62
+ 1fe:	cf 93       	push	r28
+ 200:	df 93       	push	r29
+ 202:	00 d0       	rcall	.+0      	; 0x204 <main+0x6>
+ 204:	00 d0       	rcall	.+0      	; 0x206 <main+0x8>
+ 206:	00 d0       	rcall	.+0      	; 0x208 <main+0xa>
+ 208:	cd b7       	in	r28, 0x3d	; 61
+ 20a:	de b7       	in	r29, 0x3e	; 62
 	DDRC = 0xff;
- 202:	8f ef       	ldi	r24, 0xFF	; 255
- 204:	84 bb       	out	0x14, r24	; 20
+ 20c:	8f ef       	ldi	r24, 0xFF	; 255
+ 20e:	84 bb       	out	0x14, r24	; 20
 	ADC_CONFIG s1;
 	s1.ref_selection = AVCC;
- 206:	81 e0       	ldi	r24, 0x01	; 1
- 208:	89 83       	std	Y+1, r24	; 0x01
+ 210:	81 e0       	ldi	r24, 0x01	; 1
+ 212:	89 83       	std	Y+1, r24	; 0x01
 	s1.prescaler_selection = PRESCALER_2;
- 20a:	82 e0       	ldi	r24, 0x02	; 2
- 20c:	8b 83       	std	Y+3, r24	; 0x03
+ 214:	82 e0       	ldi	r24, 0x02	; 2
+ 216:	8b 83       	std	Y+3, r24	; 0x03
 	ADC_INIT(&s1);
- 20e:	ce 01       	movw	r24, r28
- 210:	01 96       	adiw	r24, 0x01	; 1
- 212:	0e 94 45 00 	call	0x8a	; 0x8a <ADC_INIT>
+ 218:	ce 01       	movw	r24, r28
+ 21a:	01 96       	adiw	r24, 0x01	; 1
+ 21c:	0e 94 45 00 	call	0x8a	; 0x8a <ADC_INIT>
 	uint16_t x = 0 ;
     while (1) 
     {
 		x = ADC_READ(0);
- 216:	80 e0       	ldi	r24, 0x00	; 0
- 218:	0e 94 c1 00 	call	0x182	; 0x182 <ADC_READ>
+ 220:	80 e0       	ldi	r24, 0x00	; 0
+ 222:	0e 94 c1 00 	call	0x182	; 0x182 <ADC_READ>
 		if (x!=0)
- 21c:	00 97       	sbiw	r24, 0x00	; 0
- 21e:	09 f0       	breq	.+2      	; 0x222 <main+0x2e>
+ 226:	00 97       	sbiw	r24, 0x00	; 0
+ 228:	09 f0       	breq	.+2      	; 0x22c <main+0x2e>
 		{
 			PORTC = x ;
- 220:	85 bb       	out	0x15, r24	; 21
+ 22a:	85 bb       	out	0x15, r24	; 21
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
- 222:	2f ef       	ldi	r18, 0xFF	; 255
- 224:	83 e2       	ldi	r24, 0x23	; 35
- 226:	94 ef       	ldi	r25, 0xF4	; 244
- 228:	21 50       	subi	r18, 0x01	; 1
- 22a:	80 40       	sbci	r24, 0x00	; 0
- 22c:	90 40       	sbci	r25, 0x00	; 0
- 22e:	e1 f7       	brne	.-8      	; 0x228 <main+0x34>
- 230:	00 c0       	rjmp	.+0      	; 0x232 <main+0x3e>
- 232:	00 00       	nop
- 234:	f0 cf       	rjmp	.-32     	; 0x216 <main+0x22>
+ 22c:	2f ef       	ldi	r18, 0xFF	; 255
+ 22e:	83 e2       	ldi	r24, 0x23	; 35
+ 230:	94 ef       	ldi	r25, 0xF4	; 244
+ 232:	21 50       	subi	r18, 0x01	; 1
+ 234:	80 40       	sbci	r24, 0x00	; 0
+ 236:	90 40       	sbci	r25, 0x00	; 0
+ 238:	e1 f7       	brne	.-8      	; 0x232 <main+0x34>
+ 23a:	00 c0       	rjmp	.+0      	; 0x23c <main+0x3e>
+ 23c:	00 00       	nop
+ 23e:	f0 cf       	rjmp	.-32     	; 0x220 <main+0x22>
 
-00000236 <__tablejump2__>:
- 236:	ee 0f       	add	r30, r30
- 238:	ff 1f       	adc	r31, r31
- 23a:	05 90       	lpm	r0, Z+
- 23c:	f4 91       	lpm	r31, Z
- 23e:	e0 2d       	mov	r30, r0
- 240:	09 94       	ijmp
+00000240 <__tablejump2__>:
+ 240:	ee 0f       	add	r30, r30
+ 242:	ff 1f       	adc	r31, r31
+ 244:	05 90       	lpm	r0, Z+
+ 246:	f4 91       	lpm	r31, Z
+ 248:	e0 2d       	mov	r30, r0
+ 24a:	09 94       	ijmp
 
-00000242 <_exit>:
- 242:	f8 94       	cli
+0000024c <_exit>:
+ 24c:	f8 94       	cli
 
-00000244 <__stop_program>:
- 244:	ff cf       	rjmp	.-2      	; 0x244 <__stop_program>
+0000024e <__stop_program>:
+ 24e:	ff cf       	rjmp	.-2      	; 0x24e <__stop_program>
