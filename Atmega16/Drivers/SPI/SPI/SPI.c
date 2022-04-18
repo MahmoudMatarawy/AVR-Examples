@@ -22,17 +22,17 @@ void spi_master_init(void)
 void spi_slave_init(void)
 {
 	// set MISO as output
-	SPI_DDR = (1<<MISO);
+	SPI_DDR |= (1<<MISO);
 	// set MOSI , SCK and SS as input
-	SPI_DDR &=~(1<<MOSI)| ~(1<<SCK) | ~(1<<SS);
+	SPI_DDR &=~(1<<MOSI)& ~(1<<SCK) & ~(1<<SS);
 	// enable SPI
 	SPI_CONTROL_REG = (1 << SPI_ENABLE_BIT );
 }
 
 void spi_tx(unsigned char data)
 {
-	SPI_DATA_REG = data ;				// Write data into the buffer
-	while(!(SPI_STATUS_REG & (1<<SPI_INTERRUPT_FLAG)));	//Wait until transmit complete
+	SPDR = data ;				// Write data into the buffer
+	while (!(SPSR & (1<<SPIF) ));	//Wait until transmit complete
 }
 
 unsigned char spi_rx(void)
